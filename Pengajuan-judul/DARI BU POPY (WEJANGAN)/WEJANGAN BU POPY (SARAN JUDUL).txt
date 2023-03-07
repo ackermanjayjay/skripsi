@@ -1,0 +1,8 @@
+Membandingkan 2 metode machine learning sentimen analisis:
+RNN
+Naives bayes
+Optional Decision tree atau KNN
+seperti hasil confusion matrix dibandingkan 
+
+perbandingan metode ... untuk sentiment analisis
+
