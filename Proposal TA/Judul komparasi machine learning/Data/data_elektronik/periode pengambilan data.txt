@@ -1,0 +1,36 @@
+Diambil data laptop
+laptop chromebook 	16 Maret dan 17 maret
+laptop hp		16 Maret
+Laptop lenovo		17 Maret, 16 Maret, 18 Maret, 18 Maret,18 Maret,
+18 Maret, 18 Maret, 18 Maret
+Laptop macbook (applewatch)	16 Maret
+Laptop macbook (studio ponsel)	17 Maret
+Laptop macbook (newrizky)	18 Maret
+Laptop acer			26 April
+Laptop lenovo			25 April
+Laptop msi			25 April
+Laptop samsung			25 April
+Laptop xiaomi 			25 April
+
+
+
+
+
+
+
+
+
+Diambild data hp
+vivo 			19 april
+xiaomi redmi note 12 	18 april
+poco m-4		19 April
+redmi a-1		18 April
+redmi note 12 		19 April
+redmi 12 T		02 May
+redmi note 11		21 April
+redmi 9c 		21 April
+infinix hot 11		19 April
+iphone 11		19 April
+Samsung			21 April
+infini note 12 		19 April
+
