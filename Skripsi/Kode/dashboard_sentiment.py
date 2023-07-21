@@ -1,11 +1,23 @@
 import streamlit as st
-import pandas as pd
-from preprocessing_text import preprocessing_text
+# import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from joblib import load
-from pickle import load
+from preprocessing_text import preprocessing_text
+import joblib
+import os
+from sklearn.tree import DecisionTreeClassifier
 import pickle
+import data_pakaian_tree 
 
+# Import data file model
+pakaian_vectorizer = pickle.load(open("model-tfidf/tf-idf-pakaian.pkl","rb"))
+
+
+# def load_model_pred(model_file):
+#     loaded_model = joblib.load(open(os.path.join(model_file)))    
+#     return loaded_model
+
+
+# streamlit tampilan
 tab1, tab2 = st.tabs(["Pakaian", "Elektronik"])
 
 with tab2:
@@ -33,7 +45,7 @@ with tab1:
 
     opini_pakaian = st.text_input('Masukkan opini ini untuk Produk Pakaian')
     data_input = preprocessing_text(opini_pakaian)
-    tfidf = TfidfVectorizer
+    # loaded_vec = TfidfVectorizer(decode_error="replace", vocabulary=set(pickle.load(open("model-tfidf/tf-idf-pakaian.pkl", "rb"))))
 
     
     model_pakaian=st.selectbox(
@@ -41,14 +53,18 @@ with tab1:
         ('KNN', 'Decision tree', 'Naives bayes'))
     
     if model_pakaian=="Decision tree":
-            st.write('Anda memilih Dec tree')
-            loaded_vec = TfidfVectorizer(decode_error="replace", vocabulary=set(pickle.load(open("model-tfidf\feature_tf-idf-pakaian.pkl", "rb"))))
-            
-            pipeline_dec_tree = load("model-tree\model_dec_pakaian_40persen.joblib")
-
-            hasil = pipeline_dec_tree.predict(loaded_vec.fit_transform([data_input]))
-            st.write('', opini_pakaian)
-            st.write('', hasil)
+        st.write('Anda memilih Dec tree')
+        # predictor = joblib.load("model-tree\model_dec_pakaian_40persen.pkl")
+        # if predictor is None:
+        #     st.warning("gagal")
+        # else:   
+        #     prediction = predictor.predict(loaded_vec.fit_transform([data_input]))
+        #     st.write("siap model")
+        prediction=data_pakaian_tree.loaded_model_tree_pakaian_40Persen(data_input)
+        st.write(prediction)
+        # final_result = get_key(prediction)
+        # st.success("News Categorized as:: {}".format(final_result))
+        
             
     if model_pakaian=="KNN":
             st.write('Anda memilih KNN')
@@ -56,3 +72,5 @@ with tab1:
     if model_pakaian=="Naives bayes":
             st.write('Anda memilih Naives bayes')
             st.write('', opini_pakaian)
+            
+    
