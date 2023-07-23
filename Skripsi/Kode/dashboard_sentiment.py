@@ -6,16 +6,25 @@ import joblib
 import os
 from sklearn.tree import DecisionTreeClassifier
 import pickle
-import data_pakaian_tree 
+from pickle import load
 
 # Import data file model
-pakaian_vectorizer = pickle.load(open("model-tfidf/tf-idf-pakaian.pkl","rb"))
+# pakaian_vectorizer = pickle.load(open("model-tfidf/tf-idf-pakaian.pkl","rb"))
 
 
 # def load_model_pred(model_file):
-#     loaded_model = joblib.load(open(os.path.join(model_file)))    
+#     loaded_model = pickle.load(open(os.path.join(model_file)))    
 #     return loaded_model
 
+# def load_feature(model_file):
+#     loaded_feature = pickle.load(open(os.path.join(model_file)))    
+#     return  loaded_feature 
+
+# Get the Keys
+def get_key(val,my_dict):
+	for key,value in my_dict.items():
+		if val == value:
+			return key
 
 # streamlit tampilan
 tab1, tab2 = st.tabs(["Pakaian", "Elektronik"])
@@ -45,7 +54,8 @@ with tab1:
 
     opini_pakaian = st.text_input('Masukkan opini ini untuk Produk Pakaian')
     data_input = preprocessing_text(opini_pakaian)
-    # loaded_vec = TfidfVectorizer(decode_error="replace", vocabulary=set(pickle.load(open("model-tfidf/tf-idf-pakaian.pkl", "rb"))))
+    # loaded_vec = TfidfVectorizer(decode_error="replace", vocabulary=set(load(open("model-tfidf\feature_tf-idf-pakaian.pkl"))))
+    loaded_vec = TfidfVectorizer(decode_error="replace", vocabulary=set(pickle.load(open(os.path.join("model-tfidf\idf-pakaian.pkl"),'rb'))))
 
     
     model_pakaian=st.selectbox(
@@ -54,14 +64,13 @@ with tab1:
     
     if model_pakaian=="Decision tree":
         st.write('Anda memilih Dec tree')
-        # predictor = joblib.load("model-tree\model_dec_pakaian_40persen.pkl")
-        # if predictor is None:
-        #     st.warning("gagal")
-        # else:   
-        #     prediction = predictor.predict(loaded_vec.fit_transform([data_input]))
-        #     st.write("siap model")
-        prediction=data_pakaian_tree.loaded_model_tree_pakaian_40Persen(data_input)
-        st.write(prediction)
+        predictor = pickle.load(open("model-tree\content\model_tree\model_pakaian\model_dec_pakaian_10persen.pkl",'rb'))
+        if predictor is None:
+            st.write("gagal")
+        else:   
+            prediction = predictor.predict(loaded_vec.fit_transform([data_input]))
+            st.write("siap untuk di prediksi")
+            st.write(prediction)
         # final_result = get_key(prediction)
         # st.success("News Categorized as:: {}".format(final_result))
         
