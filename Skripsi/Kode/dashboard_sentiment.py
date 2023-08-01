@@ -29,8 +29,8 @@ with tab2:
         pickle.load(open(os.path.join("model-tfidf\idf-elektronik.pkl"), 'rb'))))
 
     tfidf_elektronik = loaded_vec_elektronik.fit_transform(
-                [opini_elektronik_preprocess])
-     
+        [opini_elektronik_preprocess])
+
     model_elektronik = st.radio(
         "Pilih model",
         ('KNN', 'Decision tree', 'Naives bayes'))
@@ -42,9 +42,6 @@ with tab2:
         if predictor_elektronik_tree is None:
             st.write("gagal")
         else:
-            st.write("siap untuk di prediksi")
-           
-
             prediction_elektronik = predictor_elektronik_tree.predict(
                 tfidf_elektronik)
             st.dataframe({"komentar": opini_elektronik,
@@ -66,8 +63,17 @@ with tab2:
                           "prediksi": prediction_elektronik_knn})
 
     if model_elektronik == "Naives bayes":
-        st.write('Anda memilih Naives bayes')
-        st.write('',  opini_elektronik)
+         predictor_load_elektronik_naivesbayes = pickle.load(open(
+            "model-nb\content\model_naives_bayes\model_pakaian\model_nb_pakaian_30persen.pkl", 'rb'))
+         if predictor_load_elektronik_naivesbayes  is None:
+            st.write("gagal")
+         else:
+            st.write(tfidf_elektronik)
+            prediction_elektronik_naivesbayes = predictor_load_elektronik_naivesbayes.predict(
+                tfidf_elektronik.toarray())
+            st.dataframe({"komentar": opini_elektronik,
+                          "prediksi": prediction_elektronik_naivesbayes
+                          })
 
 
 # Tab 1 untuk data pakaian
@@ -82,13 +88,13 @@ with tab1:
         pickle.load(open(os.path.join("model-tfidf\idf-pakaian.pkl"), 'rb'))))
     tfidf_pakaian = loaded_vec_pakaian.fit_transform(
         [opini_pakaian_preprocess])
-    
+    st.write("Tfidf opini anda: ", tfidf_pakaian)
+
     model_pakaian = st.selectbox(
         "Pilih model",
         ('KNN', 'Decision tree', 'Naives bayes'))
 
     if model_pakaian == "Decision tree":
-        st.write('Anda memilih Dec tree')
         predictor_load_dec_pakaian = pickle.load(open(
             "model-tree\content\model_tree\model_pakaian\model_dec_pakaian_10persen.pkl", 'rb'))
         if predictor_load_dec_pakaian is None:
@@ -96,12 +102,10 @@ with tab1:
         else:
             prediction_dec_pakaian = predictor_load_dec_pakaian.predict(
                 tfidf_pakaian)
-            st.write("siap untuk di prediksi")
             st.dataframe({"opini anda": opini_pakaian,
                           "prediksi":  prediction_dec_pakaian})
 
     if model_pakaian == "KNN":
-        st.write('Anda memilih KNN')
         predictor_load_pakaian_knn = pickle.load(open(
             "model-knn\content\model_KNN\k_4\pakaian\model_knn_pakaian_10persen_data_K4.pkl", 'rb'))
         if predictor_load_pakaian_knn is None:
@@ -111,6 +115,14 @@ with tab1:
                 tfidf_pakaian)
             st.dataframe({"komentar": opini_pakaian,
                           "prediksi": prediction_pakaian_knn})
+
     if model_pakaian == "Naives bayes":
         st.write('Anda memilih Naives bayes')
-        st.write('', opini_pakaian)
+        predictor_load_pakaian_naivesbayes = pickle.load(open(
+            "model-nb\content\model_naives_bayes\model_pakaian\model_nb_pakaian_30persen.pkl", 'rb'))
+        tfidf_pakaian_nb = loaded_vec_pakaian.fit_transform(
+        [opini_pakaian_preprocess]).toarray()
+        prediction_pakaian_naivesbayes = predictor_load_pakaian_naivesbayes.predict(
+                tfidf_pakaian_nb)
+        st.dataframe({"komentar": opini_pakaian,
+                          "prediksi": prediction_pakaian_naivesbayes})
